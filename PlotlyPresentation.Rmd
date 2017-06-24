@@ -1,0 +1,51 @@
+---
+title: "Earthquakes off Fiji"
+author: "Vanda Dias"
+date: "23 June 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+##
+
+3D plot created with Plotly using data from the R datasets package.
+
+It illustrates 1000 seismic events of MB > 4.0 since 1964 and pops up their latitude, longitude, depth and magnitude.
+
+```{r codebox, message=FALSE, echo=TRUE, eval=FALSE}
+earthquakes <- datasets::quakes
+plot_ly(x = earthquakes$lat, y = earthquakes$long, z = earthquakes$depth,
+        mode = "markers", type = "scatter3d", color = earthquakes$mag,
+        text = paste('Latitude:', earthquakes$lat, '<br>Longitude:',
+                earthquakes$long, '<br>Depth:', earthquakes$depth, 
+                '<br>Magnitude:', earthquakes$mag)) %>%
+  layout(title = "Location, Depth and Magnitude of Earthquakes",
+    scene = list(
+      xaxis = list(title = "latitude (º)"),
+      yaxis = list(title = "longitude (º)"),
+      zaxis = list(title = "depth (km)")
+      ))
+```
+
+## Plot
+
+```{r plot, message=FALSE}
+library(plotly)
+library(datasets)
+earthquakes <- datasets::quakes
+earthquakes <- earthquakes[order(-earthquakes$mag),]
+plot_ly(x = earthquakes$lat, y = earthquakes$long, z = earthquakes$depth,
+        mode = "markers", type = "scatter3d", color = earthquakes$mag,
+        text = paste('Latitude:', earthquakes$lat, '<br>Longitude:', earthquakes$long,
+                     '<br>Depth:', earthquakes$depth, '<br>Magnitude:', earthquakes$mag)) %>%
+  layout(title = "Location, Depth and Magnitude of the Earthquakes",
+    scene = list(
+      xaxis = list(title = "latitude (º)"),
+      yaxis = list(title = "longitude (º)"),
+      zaxis = list(title = "depth (km)")
+      ))
+```
+
